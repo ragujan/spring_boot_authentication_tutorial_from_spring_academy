@@ -19,6 +19,8 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -72,7 +74,7 @@ public class CashCardSpringSecurityTests {
     void shouldNotAllowTokensWithAnInvalidAudience() throws Exception {
         String token = mintToken((claims) -> claims.audience(List.of("https://wrong")));
 
-        this.mvc.perform(get("/cashcards/100").header("Authorization", "Bearer " + token))
+        this.mvc.perform(MockMvcRequestBuilders.get("/cashcards/100").header("Authorization", "Bearer " + token))
                 .andExpect(status().isUnauthorized())
                 .andExpect(header().string("WWW-Authenticate", containsString("aud claim is not valid")));
     }

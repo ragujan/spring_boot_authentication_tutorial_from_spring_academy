@@ -41,6 +41,6 @@ public class ProblemDetailsAuthenticationEntryPoint implements AuthenticationEnt
             detail.setProperty("errors", validation.getErrors());;
             this.mapper.writeValue(response.getWriter(), detail);
         }
-        
+
     }
 }
